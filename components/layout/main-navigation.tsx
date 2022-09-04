@@ -29,9 +29,11 @@ export const MainNavigation: React.FC = () => {
               <Link href={'/profile'}>Profile</Link>
             </li>
           )}
-          <li>
-            <button onClick={logoutHandler}>Logout</button>
-          </li>
+          {status === 'authenticated' && (
+            <li>
+              <button onClick={logoutHandler}>Logout</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

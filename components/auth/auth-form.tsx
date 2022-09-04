@@ -3,6 +3,7 @@ import styles from './auth-form.module.css';
 import { ResProps } from '../../pages/api/auth/signup';
 import { IUser } from '../../lib/model/User';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const createUser = async (inputs: IUser) => {
   const response = await fetch('/api/auth/signup', {
@@ -23,14 +24,20 @@ export const AuthForm: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>();
 
+  const router = useRouter();
+
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (isLogin) {
-      const userData = await signIn('credentials', {
+      const result = await signIn('credentials', {
         redirect: false,
         email,
         password,
       });
+
+      if (result?.ok) {
+        router.replace('/profile');
+      }
     } else {
       const resData = await createUser({ email, password });
       if (resData.message !== 'Success!') {

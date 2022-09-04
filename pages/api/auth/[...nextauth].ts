@@ -1,11 +1,10 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { ResProps } from './signup';
 import { getDB } from '../../../lib/db';
-import { IUser } from '../../../lib/model/User';
 import { comparePassword } from '../../../lib/auth';
 
 export default NextAuth({
+  secret: 'AUTH_SECRET_KEY',
   session: {
     strategy: 'jwt',
   },
